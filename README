@@ -1,0 +1,30 @@
+Ideea de rezolvare:
+	Citesc si interpretez fiecare caracter din sirul expr pana intalnesc
+terminatorul de sir. Caracterul citit il retin in registrul bl.
+	Compar caracterul curent cu +, *, / si sar la etichetele corespunzatoare
+fiecarei operatii. Daca simbolul curent este - , acesta poate avea doua
+semnificatii:
+1.	operatia de scadere (daca urmatorul caracter este spatiu sau terminatorul
+de sir)
+2.	face parte din scrierea unui numar negativ (daca urmatorul caracter este
+cifra). In acest caz pun in registrul edi valoarea 1. Altfel (adica pentru numere
+pozitive), registrul edi are valoarea 0.
+	In cazul numerelor - cand intalnesc o cifra, incep sa construiesc numarul
+in eax, pana cand intalnesc spatiu, apoi verific valoarea registrului edi si,
+daca este cazul, realizez C2.
+
+	In rezolvare, utilizez stiva pentru retinerea numerelor, pe urmatorul
+principiu:
+-> cand intalnesc numere, le pun pe stiva
+-> cand intalnesc un operator (+, - (daca inseamna scadere), /, *), scot doua
+numere de pe stiva (ultimele doua numere adaugate). Efectuez operatia, apoi
+adaug rezultatul pe stiva.
+Astfel, dupa ce am terminat de citit sirul, pe stiva se va afla rezultatul
+expresiei.
+
+
+	Utilizarea registrelor:
+EAX, EDX, ESI - pentru operatii (operanzi si rezultat)
+EBX - retin caractere
+ECX - parcurgere sir
+EDI - are valoarea 0 sau 1, daca un numar este pozitiv sau negativ
